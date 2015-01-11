@@ -57,6 +57,9 @@ function s:insert_vim_end_of_block_keyword()
     if block_type =~# 'catch\|finally'
         let block_type = 'try'
     endif
+    if block_type =~# 'else\|elseif'
+        let block_type = 'if'
+    endif
     execute "normal! oend".block_type
 endfunction
 " }}}
