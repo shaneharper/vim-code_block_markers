@@ -15,7 +15,7 @@ Creating new code blocks and moving past code blocks are trivial tasks done all 
 </tr>
 
 <tr>
-<td>&lt;Ctrl-j&gt;/td>
+<td>&lt;Ctrl-j&gt;</td>
 <td>Insert an empty function argument list followed by block start and end markers.
 </tr>
 </table>
