@@ -34,6 +34,7 @@ function s:add_curly_brackets_and_semicolon_if_required()
     let is_a_record_definition = (initial_line_text =~# '\(\<class\>\|\<enum\>\|\<struct\>\|\<union\>\)'
                                                      \ .'[^)]*$')  " [small HACK] Filter out lines contains a ')', e.g. 'struct S* fn()' and 'if (struct S* v = fn())'
     let is_an_assignment = (initial_line_text =~# '=$')  " Assume "struct initialization", e.g. MyStruct m = { 1,3,3 };
+    let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature.)
     if is_a_record_definition || is_an_assignment
         normal! a;
     endif
@@ -53,7 +54,9 @@ autocmd FileType vim inoremap <buffer> jj <Esc>:call search('\<end')<CR>o
 
 
 function s:insert_vim_end_of_block_keyword()
-    let block_type = substitute(substitute(getline('.'), " *", "", ""), "[ !].*", "", "")
+    " XXX this is incorrect when there are multiple commands on one line, e.g. "let a = s:fn() | if a == 42"
+    let block_type = substitute(substitute(getline(s:start_line_number_of_vim_command_under_cursor()),
+                        \ " *", "", ""), "[ !].*", "", "")      " First remove leading whitespace, then remove text (including "!" in "function!") following the command name.
     if block_type =~# 'catch\|finally'
         let block_type = 'try'
     endif
@@ -62,6 +65,16 @@ function s:insert_vim_end_of_block_keyword()
     endif
     execute "normal! oend".block_type
 endfunction
+
+
+function s:start_line_number_of_vim_command_under_cursor()
+    let r = line('.')
+    while r > 0 && getline(r) =~# '\s*\\'  " (while r is a continuation line)
+        let r -= 1
+    endwhile
+    return r
+endfunction
+
 " }}}
 
 
@@ -92,6 +105,7 @@ endfunction
 function s:move_to_end_of_shell_script_block()
     call search('\<fi\|\<done\|^}')
 endfunction
+
 " }}}
 
 
