@@ -17,9 +17,12 @@ autocmd FileType c,cpp vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX XXX ^ nice to check if selected text is already indented, if so don't indent with '>'
 " XXX To do: insert #endif after #if, #ifdef, #ifndef.
 
-" Ctrl-j : insert empty argument list and {}s for a function that takes no arguments. (Mnemonic: 'j' is beside 'k' on a Qwerty keyboard, and this is similar to Ctrl-k)
-autocmd FileType c,cpp inoremap <buffer> <c-j> <Esc>A()<CR>{<CR>}<Esc>O
-autocmd FileType c,cpp nnoremap <buffer> <c-j> A()<CR>{<CR>}<Esc>O
+" Ctrl-j : insert {}s after a line that needs to contain ()s. '(' is only added if not already present. ')' is always added.
+" Ctrl-j can be used at the top of a function definition, or for an 'if', 'for', or 'while' block.
+" (Mnemonic: 'j' is beside 'k' on a Qwerty keyboard, and this is similar to Ctrl-k)
+" XXX Ctrl-j could act like Ctrl-k (i.e. not add parentheses) if the line already has parentheses! (Then there wouldn't be a need for two mappings: Ctrl-k could do it all: add '(', ')' as required and then insert {}s. For Vimscript, only worry about parentheses after "function", not "if", "for" or "while".)
+autocmd FileType c,cpp inoremap <buffer> <c-j> <Esc>:call <SID>add_parentheses()<CR>o{<CR>}<Esc>O
+autocmd FileType c,cpp nnoremap <buffer> <c-j> :call <SID>add_parentheses()<CR>o{<CR>}<Esc>O
 " XXX Ctrl-j after the start of a struct/class/... def'n could function as ctrl-k does and also insert the start of a constructor signature.
 
 " jj : continue insertion past end of current block (Mnemonic: 'j' moves down in normal mode.)
@@ -34,9 +37,19 @@ function s:add_curly_brackets_and_semicolon_if_required()
     let is_a_record_definition = (initial_line_text =~# '\(\<class\>\|\<enum\>\|\<struct\>\|\<union\>\)'
                                                      \ .'[^)]*$')  " [small HACK] Filter out lines contains a ')', e.g. 'struct S* fn()' and 'if (struct S* v = fn())'
     let is_an_assignment = (initial_line_text =~# '=$')  " Assume "struct initialization", e.g. MyStruct m = { 1,3,3 };
-    let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature.)
+    let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature - check to see if there is an unmatched '('.)
     if is_a_record_definition || is_an_assignment
         normal! a;
+    endif
+endfunction
+
+
+function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
+    normal A)
+    let c = getcurpos()
+    normal %
+    if (c == getcurpos())
+        normal i(
     endif
 endfunction
 
@@ -47,8 +60,8 @@ endfunction
 autocmd FileType vim inoremap <buffer> <c-k> <Esc>:call <SID>insert_vim_end_of_block_keyword()<CR>O
 autocmd FileType vim nnoremap <buffer> <c-k> :call <SID>insert_vim_end_of_block_keyword()<CR>O
 
-autocmd FileType vim inoremap <buffer> <c-j> ()<Esc>:call <SID>insert_vim_end_of_block_keyword()<CR>O
-autocmd FileType vim nnoremap <buffer> <c-j> A()<Esc>:call <SID>insert_vim_end_of_block_keyword()<CR>O
+autocmd FileType vim inoremap <buffer> <c-j> <Esc>:call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O
+autocmd FileType vim nnoremap <buffer> <c-j> :call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O
 
 autocmd FileType vim inoremap <buffer> jj <Esc>:call search('\<end')<CR>o
 
