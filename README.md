@@ -16,7 +16,7 @@ Creating new code blocks and moving past code blocks are trivial tasks done all 
 
 <tr>
 <td>&lt;Ctrl-j&gt;</td>
-<td>Insert an empty function argument list followed by block start and end markers.
+<td>If the current line has an unmatched '(' then a ')' is inserted followed by block start and end markers. If there was no '(' then '()' (an empty function argument list) is inserted followed by block start and end markers.
 </tr>
 </table>
 
