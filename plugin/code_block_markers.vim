@@ -82,7 +82,7 @@ endfunction
 
 function s:start_line_number_of_vim_command_under_cursor()
     let r = line('.')
-    while r > 0 && getline(r) =~# '\s*\\'  " (while r is a continuation line)
+    while r > 0 && getline(r) =~# '^\s*\\'  " (while r is a continuation line)
         let r -= 1
     endwhile
     return r
