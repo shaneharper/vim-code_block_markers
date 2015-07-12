@@ -1,5 +1,6 @@
 " Run this from a shell:
 "  vim -S test.vim
+" XXX This script should display what failed when a test fails! (Presently it outputs just 'NN failed.' where NN is the number of tests that failed.)
 
 set noswapfile
 set noexpandtab
