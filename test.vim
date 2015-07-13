@@ -21,6 +21,12 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \   ['void f(int a)', '{', '', '}']
         \ ],
         \
+        \ ['test_struct', 'cpp',
+        \   ['struct S'],
+        \   "\<c-k>",
+        \   ['struct S', '{', '', '};']
+        \ ],
+        \
         \ ['test_slash_doesnt_always_indicate_a_continuation_line', 'vim',
         \   ['for e in f("\n")'],
         \   "\<c-k>",
