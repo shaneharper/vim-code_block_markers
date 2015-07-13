@@ -46,9 +46,9 @@ endfunction
 
 function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
     normal A)
-    let c = getcurpos()
+    let c = [col('.'), line('.')]
     normal %
-    if (c == getcurpos())
+    if (c == [col('.'), line('.')])
         normal i(
     endif
 endfunction
