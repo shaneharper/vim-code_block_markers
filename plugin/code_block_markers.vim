@@ -46,9 +46,7 @@ endfunction
 
 function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
     normal A)
-    let c = [col('.'), line('.')]
-    normal %
-    if (c == [col('.'), line('.')])
+    if searchpair('(', '', ')', 'bW', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"') <= 0
         normal i(
     endif
 endfunction
