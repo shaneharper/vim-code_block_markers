@@ -46,7 +46,7 @@ endfunction
 
 function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
     normal A)
-    if searchpair('(', '', ')', 'bW',
+    if searchpair('(', '', ')', 'bnW',
             \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"',
             \ max([line('.')-40, 1])) <= 0  " XXX ^ should ignore more than just string and comment?
         normal i(

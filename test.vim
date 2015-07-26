@@ -4,7 +4,7 @@
 set noswapfile
 set noexpandtab
 
-let failed_tests = []
+let failed_test_log = ""
 
 try
 
@@ -19,6 +19,12 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \   ['void f(int a'],
         \   "\<c-j>",
         \   ['void f(int a)', '{', '', '}']
+        \ ],
+        \
+        \ ['test_add_closing_bracket__opening_bracket_is_on_a_different_line', 'cpp',
+        \   ['void f(int a', 'int b'],
+        \   "\<c-j>",
+        \   ['void f(int a', 'int b)', '{', '', '}']
         \ ],
         \
         \ ['test_struct', 'cpp',
@@ -55,16 +61,21 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
     call append(0, buffer)
     execute 'normal Gdd'.normal_mode_command
     if expected_buffer !=# getline(1, 99)
-        let failed_tests += [test_name]
+        let failed_test_log .= test_name." failed\nBuffer:\n".join(getline(1,99),"\n")."\n"
     endif
     bwipeout!
 endfor
 
-echomsg failed_tests == [] ? "Ok." : join(failed_tests, ", ")." failed."
-set t_ti= t_te=  " (don't restore old text displayed in terminal on exit)
-messages
-quitall!
+if failed_test_log == ""
+    let failed_test_log = "Ok."
+endif
 
+for l in split(failed_test_log, "\n")
+    echomsg l
+endfor
+
+set t_ti= t_te=  " (don't restore old text displayed in terminal on exit)
+quitall!
 
 catch
     echomsg v:exception
