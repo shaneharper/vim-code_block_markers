@@ -72,9 +72,11 @@ function s:insert_vim_end_of_block_keyword()
                         \ " *", "", ""), "[ !].*", "", "")      " First remove leading whitespace, then remove text (including "!" in "function!") following the command name.
     if block_type =~# 'catch\|finally'
         let block_type = 'try'
-    endif
-    if block_type =~# 'else\|elseif'
+    elseif block_type =~# 'else\|elseif'
         let block_type = 'if'
+    elseif block_type =~# 'augroup'
+        execute "normal! oaugroup END"  | " XXX add "autocmd!" as first line of block?
+        return
     endif
     execute "normal! oend".block_type
 endfunction

@@ -39,6 +39,12 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \   ['for e in f("\n")', '', 'endfor']
         \ ],
         \
+        \ ['test_augroup', 'vim',
+        \   ['augroup my_group'],
+        \   "\<c-k>",
+        \   ['augroup my_group', '', 'augroup END']
+        \ ],
+        \
         \ ['test_sh_if', 'sh',
         \   ['if [ -d "dir" ]'],
         \   "\<c-k>",
