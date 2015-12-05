@@ -1,6 +1,9 @@
 " vim-code_block_markers
 " Author: Shane Harper <shane@shaneharper.net>
 
+" XXX Check if insert mode mappings work when Vim's insertmode option is set.
+
+
 if exists("g:loaded_code_block_markers_plugin") | finish | endif
 let g:loaded_code_block_markers_plugin = 1
 
@@ -75,7 +78,8 @@ function s:insert_vim_end_of_block_keyword()
     elseif block_type =~# 'else\|elseif'
         let block_type = 'if'
     elseif block_type =~# 'augroup'
-        execute "normal! oaugroup END"  | " XXX add "autocmd!" as first line of block?
+        normal! oaugroup END
+        " XXX add "autocmd!" as first line of block (iff <C-j>, not <C-k> used)?
         return
     endif
     execute "normal! oend".block_type
