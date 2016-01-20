@@ -67,7 +67,7 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
     call append(0, buffer)
     execute 'normal Gdd'.normal_mode_command
     if expected_buffer !=# getline(1, 99)
-        let failed_test_log .= test_name." failed\nBuffer:\n".join(getline(1,99),"\n")."\n"
+        let failed_test_log .= test_name." failed\nBuffer:\n".join(getline(1,99),"\n")."\n\n"
     endif
     bwipeout!
 endfor
@@ -77,7 +77,7 @@ if failed_test_log == ""
 endif
 
 for l in split(failed_test_log, "\n")
-    echomsg l
+    echomsg empty(l) ? ' ' : l
 endfor
 
 set t_ti= t_te=  " (don't restore old text displayed in terminal on exit)
