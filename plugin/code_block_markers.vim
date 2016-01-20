@@ -73,16 +73,19 @@ function s:insert_vim_end_of_block_keyword()
     " XXX this is incorrect when there are multiple commands on one line, e.g. "let a = s:fn() | if a == 42"
     let block_type = substitute(substitute(getline(s:start_line_number_of_vim_command_under_cursor()),
                         \ " *", "", ""), "[ !].*", "", "")      " First remove leading whitespace, then remove text (including "!" in "function!") following the command name.
-    if block_type =~# 'catch\|finally'
-        let block_type = 'try'
-    elseif block_type =~# 'else\|elseif'
-        let block_type = 'if'
-    elseif block_type =~# 'augroup'
+    if block_type =~# 'augroup'
         normal! oaugroup END
         " XXX add "autocmd!" as first line of block (iff <C-j>, not <C-k> used)?
-        return
+    elseif block_type =~# 'redir'
+        normal! oredir END
+    else
+        if block_type =~# 'catch\|finally'
+            let block_type = 'try'
+        elseif block_type =~# 'else\|elseif'
+            let block_type = 'if'
+        endif
+        execute "normal! oend".block_type
     endif
-    execute "normal! oend".block_type
 endfunction
 
 

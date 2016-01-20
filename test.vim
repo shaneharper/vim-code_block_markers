@@ -45,6 +45,12 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \   ['augroup my_group', '', 'augroup END']
         \ ],
         \
+        \ ['test_redir', 'vim',
+        \   ['redir => o'],
+        \   "\<c-k>",
+        \   ['redir => o', '', 'redir END']
+        \ ],
+        \
         \ ['test_sh_if', 'sh',
         \   ['if [ -d "dir" ]'],
         \   "\<c-k>",
