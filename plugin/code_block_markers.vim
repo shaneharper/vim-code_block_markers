@@ -1,6 +1,10 @@
 " vim-code_block_markers
 " Author: Shane Harper <shane@shaneharper.net>
 
+let s:cpoptions_save = &cpoptions
+set cpoptions&vim
+
+
 " XXX Check if insert mode mappings work when Vim's insertmode option is set.
 
 
@@ -130,5 +134,7 @@ endfunction
 
 " }}}
 
+
+let &cpoptions = s:cpoptions_save
 
 " vim:set foldmethod=marker:
