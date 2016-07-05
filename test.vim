@@ -72,6 +72,12 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \   ['#!/bin/sh', 'for i in hello world;  do'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'for i in hello world;  do', '', 'done']
+        \ ],
+        \
+        \ ['test_sh_function_name_followed_by_brackets', 'sh',
+        \   ['#!/bin/sh', 'myfunction()'],
+        \   "\<c-k>",
+        \   ['#!/bin/sh', 'myfunction()', '{', '', '}']
         \ ]]
 
     execute 'set filetype='.filetype
