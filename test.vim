@@ -11,6 +11,8 @@ let failed_test_log = ""
 
 try
 
+source plugin/code_block_markers.vim
+
 for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \ ['test_c_function_without_arguments', 'c',
         \   ['void no_args'],
