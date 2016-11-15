@@ -87,8 +87,8 @@ for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
         \ ]]
 
     execute 'set filetype='.filetype
-    call append(0, buffer)
-    execute 'normal Gdd'.normal_mode_command
+    call setline(1, buffer)
+    execute 'normal G'.normal_mode_command
     if expected_buffer !=# getline(1, 99)
         let failed_test_log .= test_name." failed\nBuffer:\n".join(getline(1,99),"\n")."\n\n"
     endif
