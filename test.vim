@@ -19,19 +19,16 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \   "\<c-j>",
         \   ['void no_args()', '{', '', '}']
         \ ],
-        \
         \ ['cpp', 'add_closing_bracket',
         \   ['void f(int a'],
         \   "\<c-j>",
         \   ['void f(int a)', '{', '', '}']
         \ ],
-        \
         \ ['cpp', 'add_closing_bracket__opening_bracket_is_on_a_different_line',
         \   ['void f(int a', 'int b'],
         \   "\<c-j>",
         \   ['void f(int a', 'int b)', '{', '', '}']
         \ ],
-        \
         \ ['cpp', 'struct',
         \   ['struct S'],
         \   "\<c-k>",
@@ -39,13 +36,11 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \ ],
         \
         \
-        \
         \ ['cmake', 'if',
         \   ['if (0'],
         \   "\<c-j>",
         \   ['if (0)', '', 'endif()']
         \ ],
-        \
         \ ['cmake', 'while',
         \   ['while (1)'],
         \   "\<c-k>",
@@ -53,31 +48,26 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \ ],
         \
         \
-        \
         \ ['sh', 'if',
         \   ['if [ -d "dir" ]'],
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ],
-        \
         \ ['sh', 'if2',
         \   ['if [ -d "dir" ];  then'],
         \   "\<c-k>",
         \   ['if [ -d "dir" ];  then', '', 'fi']
         \ ],
-        \
         \ ['sh', 'for',
         \   ['#!/bin/sh', 'for i in hello world;  do'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'for i in hello world;  do', '', 'done']
         \ ],
-        \
         \ ['sh', 'case',
         \   ['#!/bin/sh', 'case $v in'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'case $v in', '', 'esac']
         \ ],
-        \
         \ ['sh', 'function_name_followed_by_brackets',
         \   ['#!/bin/sh', 'myfunction()'],
         \   "\<c-k>",
@@ -85,19 +75,16 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \ ],
         \
         \
-        \
         \ ['vim', 'slash_doesnt_always_indicate_a_continuation_line',
         \   ['for e in f("\n")'],
         \   "\<c-k>",
         \   ['for e in f("\n")', '', 'endfor']
         \ ],
-        \
         \ ['vim', 'augroup',
         \   ['augroup my_group'],
         \   "\<c-k>",
         \   ['augroup my_group', '', 'augroup END']
         \ ],
-        \
         \ ['vim', 'redir',
         \   ['redir => o'],
         \   "\<c-k>",
