@@ -63,7 +63,7 @@ endfunction
 " }}}
 
 
-" Cmake block mappings ---------------------------------------------------- {{{
+" CMake block mappings ---------------------------------------------------- {{{
 autocmd FileType cmake inoremap <buffer> <c-k> <Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
 autocmd FileType cmake nnoremap <buffer> <c-k> :call <SID>insert_cmakelists_block_end_keyword()<CR>O
 autocmd FileType cmake inoremap <buffer> <c-j> )<Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
@@ -73,9 +73,9 @@ autocmd FileType cmake inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_cmake
 
 
 function s:insert_cmakelists_block_end_keyword()
-    if getline('.') =~# '^\s*if'
+    if getline('.') =~# '^\s*\(if\|elseif\|else\)\>'
         normal oendif()
-    elseif getline('.') =~# '^\s*while'
+    elseif getline('.') =~# '^\s*while\>'
         normal oendwhile()
     endif
 endfunction
@@ -95,7 +95,7 @@ autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_sc
 
 
 function s:insert_shell_script_block_start_and_end_keywords()
-    if getline('.') =~# '^\s*if'
+    if getline('.') =~# '^\s*if\>'
         if getline('.') !~# ';\s*then'
             normal A; then
         endif
@@ -103,10 +103,10 @@ function s:insert_shell_script_block_start_and_end_keywords()
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
         normal o{
         normal o}
-    elseif getline('.') =~# '^\s*case'
+    elseif getline('.') =~# '^\s*case\>'
         normal oesac
     else
-        if getline('.') !~# ';\s*do'
+        if getline('.') !~# ';\s*do\>'
             normal A; do
         endif
         normal odone

@@ -41,6 +41,16 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \   "\<c-j>",
         \   ['if (0)', '', 'endif()']
         \ ],
+        \ ['cmake', 'else',
+        \   ['if(0)', 'else()'],
+        \   "\<c-k>",
+        \   ['if(0)', 'else()', '', 'endif()']
+        \ ],
+        \ ['cmake', 'elseif',
+        \   ['if(0)', 'elseif(1'],
+        \   "\<c-j>",
+        \   ['if(0)', 'elseif(1)', '', 'endif()']
+        \ ],
         \ ['cmake', 'while',
         \   ['while (1)'],
         \   "\<c-k>",
