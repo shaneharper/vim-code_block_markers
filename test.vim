@@ -40,6 +40,20 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \
         \
         \
+        \ ['cmake', 'if',
+        \   ['if (0'],
+        \   "\<c-j>",
+        \   ['if (0)', '', 'endif()']
+        \ ],
+        \
+        \ ['cmake', 'while',
+        \   ['while (1)'],
+        \   "\<c-k>",
+        \   ['while (1)', '', 'endwhile()']
+        \ ],
+        \
+        \
+        \
         \ ['sh', 'if',
         \   ['if [ -d "dir" ]'],
         \   "\<c-k>",

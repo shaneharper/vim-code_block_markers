@@ -63,6 +63,30 @@ endfunction
 " }}}
 
 
+" Cmake block mappings ---------------------------------------------------- {{{
+autocmd FileType cmake inoremap <buffer> <c-k> <Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
+autocmd FileType cmake nnoremap <buffer> <c-k> :call <SID>insert_cmakelists_block_end_keyword()<CR>O
+autocmd FileType cmake inoremap <buffer> <c-j> )<Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
+autocmd FileType cmake nnoremap <buffer> <c-j> :exec 'normal A)'<bar>call <SID>insert_cmakelists_block_end_keyword()<CR>O
+
+autocmd FileType cmake inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_cmakelists_block()<CR>o
+
+
+function s:insert_cmakelists_block_end_keyword()
+    if getline('.') =~# '^\s*if'
+        normal oendif()
+    elseif getline('.') =~# '^\s*while'
+        normal oendwhile()
+    endif
+endfunction
+
+function s:move_to_end_of_cmakelists_block()
+    call search('\<endif()\|endwhile()')
+endfunction
+
+" }}}
+
+
 " Shell script block mappings --------------------------------------------- {{{
 autocmd FileType sh inoremap <buffer> <c-k> <Esc>:call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
 autocmd FileType sh nnoremap <buffer> <c-k> :call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O

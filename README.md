@@ -1,7 +1,7 @@
 vim-code_block_markers
 ======================
 
-This Vim editor plugin defines key mappings for inserting code block markers and moving past code block markers in C, C++, Vimscript and shell scripts. Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium.
+Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium. This Vim editor plugin defines key mappings for inserting code block markers and moving past code block markers in C, C++, CMakeLists.txt, shell script and Vimscript files.
 
 <table>
 <tr>
