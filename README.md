@@ -1,7 +1,20 @@
 vim-code_block_markers
 ======================
 
-Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium. This Vim editor plugin defines key mappings for inserting code block markers and moving past code block markers in C, C++, CMakeLists.txt, shell script and Vimscript files.
+Go from
+```
+int my_new_function
+```
+to:
+```
+int my_new_function()
+{
+
+}
+```
+with a single key-mapping with this plugin; The cursor will be positioned to begin entering the first statement of the function body.
+
+Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium. This Vim editor plugin defines key mappings for C, C++, CMakeLists.txt, shell script and Vimscript files.
 
 <table>
 <tr>
@@ -11,7 +24,7 @@ Inserting and moving past code block markers are (trivial) tasks done all the ti
 
 <tr>
 <td>jj</td>
-<td>An insert mode mapping that continues insertion beyond current end of block.
+<td>An insert mode mapping that continues insertion beyond the end of the current block.
 </tr>
 
 <tr>
@@ -19,22 +32,6 @@ Inserting and moving past code block markers are (trivial) tasks done all the ti
 <td>If the current line has an unmatched '(' then a ')' is inserted followed by block start and end markers. If there was no '(' then '()' (an empty function argument list) is inserted followed by block start and end markers.
 </tr>
 </table>
-
-
-Example
--------
-Typing &lt;Ctrl&gt;j after entering the start of the following C function
-```
-int my_function
-```
-results in:
-```
-int my_function()
-{
-
-}
-```
-with the cursor inside the {}s. Typing jj (j quickly followed by another j) while still in insert mode will move the cursor to the line past the '}' at the end of the function definition.
 
 
 Setup
