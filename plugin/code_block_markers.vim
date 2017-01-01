@@ -63,6 +63,39 @@ endfunction
 " }}}
 
 
+" Shell script block mappings --------------------------------------------- {{{
+autocmd FileType sh inoremap <buffer> <c-k> <Esc>:call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
+autocmd FileType sh nnoremap <buffer> <c-k> :call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
+
+autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
+
+
+function s:insert_shell_script_block_start_and_end_keywords()
+    if getline('.') =~# '^\s*if'
+        if getline('.') !~# ';\s*then'
+            normal A; then
+        endif
+        normal ofi
+    elseif getline('.') =~# '^\s*\(function\|\w*()\)'
+        normal o{
+        normal o}
+    elseif getline('.') =~# '^\s*case'
+        normal oesac
+    else
+        if getline('.') !~# ';\s*do'
+            normal A; do
+        endif
+        normal odone
+    endif
+endfunction
+
+function s:move_to_end_of_shell_script_block()
+    call search('\<fi\|\<done\|^}')
+endfunction
+
+" }}}
+
+
 " Vimscript block mappings ------------------------------------------------ {{{
 autocmd FileType vim inoremap <buffer> <c-k> <Esc>:call <SID>insert_vim_end_of_block_keyword()<CR>O
 autocmd FileType vim nnoremap <buffer> <c-k> :call <SID>insert_vim_end_of_block_keyword()<CR>O
@@ -99,39 +132,6 @@ function s:start_line_number_of_vim_command_under_cursor()
         let r -= 1
     endwhile
     return r
-endfunction
-
-" }}}
-
-
-" Shell script block mappings --------------------------------------------- {{{
-autocmd FileType sh inoremap <buffer> <c-k> <Esc>:call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
-autocmd FileType sh nnoremap <buffer> <c-k> :call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
-
-autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
-
-
-function s:insert_shell_script_block_start_and_end_keywords()
-    if getline('.') =~# '^\s*if'
-        if getline('.') !~# ';\s*then'
-            normal A; then
-        endif
-        normal ofi
-    elseif getline('.') =~# '^\s*\(function\|\w*()\)'
-        normal o{
-        normal o}
-    elseif getline('.') =~# '^\s*case'
-        normal oesac
-    else
-        if getline('.') !~# ';\s*do'
-            normal A; do
-        endif
-        normal odone
-    endif
-endfunction
-
-function s:move_to_end_of_shell_script_block()
-    call search('\<fi\|\<done\|^}')
 endfunction
 
 " }}}

@@ -13,84 +13,88 @@ try
 
 source plugin/code_block_markers.vim
 
-for [test_name, filetype, buffer, normal_mode_command, expected_buffer] in [
-        \ ['test_c_function_without_arguments', 'c',
+for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text] in [
+        \ ['c', 'function_without_arguments',
         \   ['void no_args'],
         \   "\<c-j>",
         \   ['void no_args()', '{', '', '}']
         \ ],
         \
-        \ ['test_add_closing_bracket', 'cpp',
+        \ ['cpp', 'add_closing_bracket',
         \   ['void f(int a'],
         \   "\<c-j>",
         \   ['void f(int a)', '{', '', '}']
         \ ],
         \
-        \ ['test_add_closing_bracket__opening_bracket_is_on_a_different_line', 'cpp',
+        \ ['cpp', 'add_closing_bracket__opening_bracket_is_on_a_different_line',
         \   ['void f(int a', 'int b'],
         \   "\<c-j>",
         \   ['void f(int a', 'int b)', '{', '', '}']
         \ ],
         \
-        \ ['test_struct', 'cpp',
+        \ ['cpp', 'struct',
         \   ['struct S'],
         \   "\<c-k>",
         \   ['struct S', '{', '', '};']
         \ ],
         \
-        \ ['test_slash_doesnt_always_indicate_a_continuation_line', 'vim',
-        \   ['for e in f("\n")'],
-        \   "\<c-k>",
-        \   ['for e in f("\n")', '', 'endfor']
-        \ ],
         \
-        \ ['test_augroup', 'vim',
-        \   ['augroup my_group'],
-        \   "\<c-k>",
-        \   ['augroup my_group', '', 'augroup END']
-        \ ],
         \
-        \ ['test_redir', 'vim',
-        \   ['redir => o'],
-        \   "\<c-k>",
-        \   ['redir => o', '', 'redir END']
-        \ ],
-        \
-        \ ['test_sh_if', 'sh',
+        \ ['sh', 'if',
         \   ['if [ -d "dir" ]'],
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ],
         \
-        \ ['test_sh_if2', 'sh',
+        \ ['sh', 'if2',
         \   ['if [ -d "dir" ];  then'],
         \   "\<c-k>",
         \   ['if [ -d "dir" ];  then', '', 'fi']
         \ ],
         \
-        \ ['test_sh_for', 'sh',
+        \ ['sh', 'for',
         \   ['#!/bin/sh', 'for i in hello world;  do'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'for i in hello world;  do', '', 'done']
         \ ],
         \
-        \ ['test_sh_case', 'sh',
+        \ ['sh', 'case',
         \   ['#!/bin/sh', 'case $v in'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'case $v in', '', 'esac']
         \ ],
         \
-        \ ['test_sh_function_name_followed_by_brackets', 'sh',
+        \ ['sh', 'function_name_followed_by_brackets',
         \   ['#!/bin/sh', 'myfunction()'],
         \   "\<c-k>",
         \   ['#!/bin/sh', 'myfunction()', '{', '', '}']
+        \ ],
+        \
+        \
+        \
+        \ ['vim', 'slash_doesnt_always_indicate_a_continuation_line',
+        \   ['for e in f("\n")'],
+        \   "\<c-k>",
+        \   ['for e in f("\n")', '', 'endfor']
+        \ ],
+        \
+        \ ['vim', 'augroup',
+        \   ['augroup my_group'],
+        \   "\<c-k>",
+        \   ['augroup my_group', '', 'augroup END']
+        \ ],
+        \
+        \ ['vim', 'redir',
+        \   ['redir => o'],
+        \   "\<c-k>",
+        \   ['redir => o', '', 'redir END']
         \ ]]
 
     execute 'set filetype='.filetype
-    call setline(1, buffer)
+    call setline(1, buffer_text)
     execute 'normal G'.normal_mode_command
-    if expected_buffer !=# getline(1, "$")
-        let failed_test_log .= test_name." failed\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
+    if expected_buffer_text !=# getline(1, "$")
+        let failed_test_log .= test_name." (".filetype.") test failed\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
     endif
     bwipeout!
 endfor
