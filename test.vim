@@ -6,6 +6,7 @@ set cpoptions&vim
 
 set noswapfile
 set noexpandtab
+set shiftwidth=0
 
 let failed_test_log = ""
 
@@ -33,6 +34,11 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \   ['struct S'],
         \   "\<c-k>",
         \   ['struct S', '{', '', '};']
+        \ ],
+        \ ['c', 'make_block_of_visual_selection',
+        \   ['doit();'],
+        \   "V\<c-k>",
+        \   ['{', "\<tab>doit();", '}']
         \ ],
         \
         \
