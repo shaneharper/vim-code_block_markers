@@ -74,6 +74,16 @@ for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text
         \   "\<c-k>",
         \   ['if [ -d "dir" ];  then', '', 'fi']
         \ ],
+        \ ['sh', 'if__add_then_fi',
+        \   ['if [ -d "dir" ];'],
+        \   "\<c-k>",
+        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \ ],
+        \ ['sh', 'if__add_semicolon_then_fi',
+        \   ['if [ -d "dir" ]'],
+        \   "\<c-k>",
+        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \ ],
         \ ['sh', 'for',
         \   ['#!/bin/sh', 'for i in hello world;  do'],
         \   "\<c-k>",

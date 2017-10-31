@@ -97,7 +97,10 @@ autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_sc
 function s:insert_shell_script_block_start_and_end_keywords()
     if getline('.') =~# '^\s*if\>'
         if getline('.') !~# ';\s*then'
-            normal A; then
+            if getline('.') !~# ';\s*$'
+                normal A;
+            endif
+            normal A then
         endif
         normal ofi
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
