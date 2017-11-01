@@ -103,7 +103,14 @@ call s:test([
         \   'if [ -d "dir" ]',
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
-        \ ],
+        \ ]])
+" XXX    \ ['if__add_closing_square_bracket',
+"        \   'if [ -d "dir"',
+"        \   "\<c-k>",
+"        \   ['if [ -d "dir" ]; then', '', 'fi']
+"        \ ], " XXX Also add test: Add "]]" to match "[[".
+
+call s:test([
         \ ['for',
         \   "#!/bin/sh\nfor i in hello world;  do",
         \   "\<c-k>",
@@ -113,6 +120,11 @@ call s:test([
         \   "#!/bin/sh\ncase $v in",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'case $v in', '', 'esac']
+        \ ],
+        \ ['function',
+        \   "#!/bin/sh\nfunction f",
+        \   "\<c-k>",
+        \   ['#!/bin/sh', 'function f', '{', '', '}']
         \ ],
         \ ['function_name_followed_by_brackets',
         \   "#!/bin/sh\nmyfunction()",
