@@ -8,129 +8,143 @@ set noswapfile
 set noexpandtab
 set shiftwidth=0
 
-let failed_test_log = ""
+let s:failed_test_log = ""
 
 try
 
+function s:test(tests)
+    for [test_name, buffer_text, normal_mode_command, expected_buffer_text] in a:tests
+        call setline(1, split(buffer_text, "\n"))
+        execute 'normal G'.normal_mode_command
+        if expected_buffer_text !=# getline(1, "$")
+            let s:failed_test_log .= test_name." (".&filetype.") test failed\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
+        endif
+        normal ggdG
+    endfor
+endfunction
+
 source plugin/code_block_markers.vim
 
-for [filetype, test_name, buffer_text, normal_mode_command, expected_buffer_text] in [
-        \ ['c', 'function_without_arguments',
-        \   ['void no_args'],
+set filetype=c  " {{{1
+call s:test([
+        \ ['function_without_arguments',
+        \   'void no_args',
         \   "\<c-j>",
         \   ['void no_args()', '{', '', '}']
         \ ],
-        \ ['cpp', 'add_closing_bracket',
-        \   ['void f(int a'],
-        \   "\<c-j>",
-        \   ['void f(int a)', '{', '', '}']
-        \ ],
-        \ ['cpp', 'add_closing_bracket__opening_bracket_is_on_a_different_line',
-        \   ['void f(int a', 'int b'],
-        \   "\<c-j>",
-        \   ['void f(int a', 'int b)', '{', '', '}']
-        \ ],
-        \ ['cpp', 'struct',
-        \   ['struct S'],
-        \   "\<c-k>",
-        \   ['struct S', '{', '', '};']
-        \ ],
-        \ ['c', 'make_block_of_visual_selection',
-        \   ['doit();'],
+        \ ['make_block_of_visual_selection',
+        \   'doit();',
         \   "V\<c-k>",
         \   ['{', "\<tab>doit();", '}']
-        \ ],
-        \
-        \
-        \ ['cmake', 'if',
-        \   ['if (0'],
+        \ ]])
+" }}}1
+
+set filetype=cmake  " {{{1
+call s:test([
+        \ ['if',
+        \   'if (0',
         \   "\<c-j>",
         \   ['if (0)', '', 'endif()']
         \ ],
-        \ ['cmake', 'else',
-        \   ['if(0)', 'else()'],
+        \ ['else',
+        \   "if(0)\nelse()",
         \   "\<c-k>",
         \   ['if(0)', 'else()', '', 'endif()']
         \ ],
-        \ ['cmake', 'elseif',
-        \   ['if(0)', 'elseif(1'],
+        \ ['elseif',
+        \   "if(0)\nelseif(1",
         \   "\<c-j>",
         \   ['if(0)', 'elseif(1)', '', 'endif()']
         \ ],
-        \ ['cmake', 'while',
-        \   ['while (1)'],
+        \ ['while',
+        \   'while (1)',
         \   "\<c-k>",
         \   ['while (1)', '', 'endwhile()']
+        \ ]])
+" }}}1
+
+set filetype=cpp  " {{{1
+call s:test([
+        \ ['add_closing_bracket',
+        \   'void f(int a',
+        \   "\<c-j>",
+        \   ['void f(int a)', '{', '', '}']
         \ ],
-        \
-        \
-        \ ['sh', 'if',
-        \   ['if [ -d "dir" ]'],
+        \ ['add_closing_bracket__opening_bracket_is_on_a_different_line',
+        \   "void f(int a\nint b",
+        \   "\<c-j>",
+        \   ['void f(int a', 'int b)', '{', '', '}']
+        \ ],
+        \ ['struct',
+        \   'struct S',
+        \   "\<c-k>",
+        \   ['struct S', '{', '', '};']
+        \ ]])
+" }}}1
+
+set filetype=sh  " {{{1
+call s:test([
+        \ ['if',
+        \   'if [ -d "dir" ]',
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ],
-        \ ['sh', 'if2',
-        \   ['if [ -d "dir" ];  then'],
+        \ ['if2',
+        \   'if [ -d "dir" ];  then',
         \   "\<c-k>",
         \   ['if [ -d "dir" ];  then', '', 'fi']
         \ ],
-        \ ['sh', 'if__add_then_fi',
-        \   ['if [ -d "dir" ];'],
+        \ ['if__add_then_fi',
+        \   'if [ -d "dir" ];',
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ],
-        \ ['sh', 'if__add_semicolon_then_fi',
-        \   ['if [ -d "dir" ]'],
+        \ ['if__add_semicolon_then_fi',
+        \   'if [ -d "dir" ]',
         \   "\<c-k>",
         \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ],
-        \ ['sh', 'for',
-        \   ['#!/bin/sh', 'for i in hello world;  do'],
+        \ ['for',
+        \   "#!/bin/sh\nfor i in hello world;  do",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'for i in hello world;  do', '', 'done']
         \ ],
-        \ ['sh', 'case',
-        \   ['#!/bin/sh', 'case $v in'],
+        \ ['case',
+        \   "#!/bin/sh\ncase $v in",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'case $v in', '', 'esac']
         \ ],
-        \ ['sh', 'function_name_followed_by_brackets',
-        \   ['#!/bin/sh', 'myfunction()'],
+        \ ['function_name_followed_by_brackets',
+        \   "#!/bin/sh\nmyfunction()",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'myfunction()', '{', '', '}']
-        \ ],
-        \
-        \
-        \ ['vim', 'slash_doesnt_always_indicate_a_continuation_line',
-        \   ['for e in f("\n")'],
+        \ ]])
+" }}}1
+
+set filetype=vim  " {{{1
+call s:test([
+        \ ['slash_doesnt_always_indicate_a_continuation_line',
+        \   'for e in f("\n")',
         \   "\<c-k>",
         \   ['for e in f("\n")', '', 'endfor']
         \ ],
-        \ ['vim', 'augroup',
-        \   ['augroup my_group'],
+        \ ['augroup',
+        \   'augroup my_group',
         \   "\<c-k>",
         \   ['augroup my_group', '', 'augroup END']
         \ ],
-        \ ['vim', 'redir',
-        \   ['redir => o'],
+        \ ['redir',
+        \   'redir => o',
         \   "\<c-k>",
         \   ['redir => o', '', 'redir END']
-        \ ]]
+        \ ]])
+" }}}1
 
-    execute 'set filetype='.filetype
-    call setline(1, buffer_text)
-    execute 'normal G'.normal_mode_command
-    if expected_buffer_text !=# getline(1, "$")
-        let failed_test_log .= test_name." (".filetype.") test failed\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
-    endif
-    bwipeout!
-endfor
-
-if failed_test_log == ""
-    let failed_test_log = "Ok."
+if s:failed_test_log == ""
+    let s:failed_test_log = "Ok."
 endif
 
-for l in split(failed_test_log, "\n")
+for l in split(s:failed_test_log, "\n")
     echomsg empty(l) ? ' ' : l
 endfor
 
@@ -143,3 +157,5 @@ endtry
 
 
 let &cpoptions = s:cpoptions_save
+
+" vim:set foldmethod=marker:
