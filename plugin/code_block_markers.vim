@@ -11,14 +11,18 @@ set cpoptions&vim
 if exists("g:loaded_code_block_markers_plugin") | finish | endif
 let g:loaded_code_block_markers_plugin = 1
 
+function s:set_normal_and_insert_mode_mapping(filetypes, keys, normal_mode_command)
+    execute 'autocmd FileType' a:filetypes 'inoremap <buffer>' a:keys '<Esc>'.a:normal_mode_command
+    execute 'autocmd FileType' a:filetypes 'noremap <buffer>' a:keys a:normal_mode_command
+endfunction
 
 " C/C++ block mappings ---------------------------------------------------- {{{
 
 " Ctrl-k : insert {}s (Mnemonic: 'k'urly)
 " (I wanted to use Shift-<CR> but unfortunately it's not possible to map Shift-<CR> differently to <CR> when running Vim in a terminal window.)
 " Note: '{' isn't mapped because sometimes we want to have {}s on the one line.
-autocmd FileType c,cpp inoremap <buffer> <c-k> <Esc>:call <SID>add_curly_brackets_and_semicolon_if_required()<CR>O
-autocmd FileType c,cpp nnoremap <buffer> <c-k> :call <SID>add_curly_brackets_and_semicolon_if_required()<CR>O
+call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required()<CR>O')
+
 autocmd FileType c,cpp vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX ^ nice to add a ';' after the '}' if line before first line of visual selection is the start of a struct/class/enum/union.
 " XXX XXX ^ nice to check if selected text is already indented, if so don't indent with '>'
@@ -28,8 +32,7 @@ autocmd FileType c,cpp vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
 " Ctrl-j can be used at the top of a function definition, or for an 'if', 'for', or 'while' block.
 " (Mnemonic: 'j' is beside 'k' on a Qwerty keyboard, and this is similar to Ctrl-k)
 " XXX Ctrl-j could act like Ctrl-k (i.e. not add parentheses) if the line already has parentheses! (Then there wouldn't be a need for two mappings: Ctrl-k could do it all: add '(', ')' as required and then insert {}s. For Vimscript, only worry about parentheses after "function", not "if", "for" or "while".)
-autocmd FileType c,cpp inoremap <buffer> <c-j> <Esc>:call <SID>add_parentheses()<CR>o{<CR>}<Esc>O
-autocmd FileType c,cpp nnoremap <buffer> <c-j> :call <SID>add_parentheses()<CR>o{<CR>}<Esc>O
+call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-j>', ':call <SID>add_parentheses()<CR>o{<CR>}<Esc>O')
 " XXX Ctrl-j after the start of a struct/class/... def'n could function as ctrl-k does and also insert the start of a constructor signature.
 
 " jj : continue insertion past end of current block (Mnemonic: 'j' moves down in normal mode.)
@@ -64,8 +67,7 @@ endfunction
 
 
 " CMake block mappings ---------------------------------------------------- {{{
-autocmd FileType cmake inoremap <buffer> <c-k> <Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
-autocmd FileType cmake nnoremap <buffer> <c-k> :call <SID>insert_cmakelists_block_end_keyword()<CR>O
+call s:set_normal_and_insert_mode_mapping('cmake', '<c-k>', ':call <SID>insert_cmakelists_block_end_keyword()<CR>O')
 autocmd FileType cmake inoremap <buffer> <c-j> )<Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
 autocmd FileType cmake nnoremap <buffer> <c-j> :exec 'normal A)'<bar>call <SID>insert_cmakelists_block_end_keyword()<CR>O
 
@@ -88,8 +90,7 @@ endfunction
 
 
 " Shell script block mappings --------------------------------------------- {{{
-autocmd FileType sh inoremap <buffer> <c-k> <Esc>:call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
-autocmd FileType sh nnoremap <buffer> <c-k> :call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O
+call s:set_normal_and_insert_mode_mapping('sh', '<c-k>', ':call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O')
 
 autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
 
@@ -124,11 +125,8 @@ endfunction
 
 
 " Vimscript block mappings ------------------------------------------------ {{{
-autocmd FileType vim inoremap <buffer> <c-k> <Esc>:call <SID>insert_vim_end_of_block_keyword()<CR>O
-autocmd FileType vim nnoremap <buffer> <c-k> :call <SID>insert_vim_end_of_block_keyword()<CR>O
-
-autocmd FileType vim inoremap <buffer> <c-j> <Esc>:call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O
-autocmd FileType vim nnoremap <buffer> <c-j> :call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O
+call s:set_normal_and_insert_mode_mapping('vim', '<c-k>', ':call <SID>insert_vim_end_of_block_keyword()<CR>O')
+call s:set_normal_and_insert_mode_mapping('vim', '<c-j>', ':call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O')
 
 autocmd FileType vim inoremap <buffer> jj <Esc>:call search('\<end')<CR>o
 
