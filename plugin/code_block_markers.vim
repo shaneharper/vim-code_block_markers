@@ -11,10 +11,12 @@ set cpoptions&vim
 if exists("g:loaded_code_block_markers_plugin") | finish | endif
 let g:loaded_code_block_markers_plugin = 1
 
+
 function s:set_normal_and_insert_mode_mapping(filetypes, keys, normal_mode_command)
     execute 'autocmd FileType' a:filetypes 'inoremap <buffer>' a:keys '<Esc>'.a:normal_mode_command
     execute 'autocmd FileType' a:filetypes 'noremap <buffer>' a:keys a:normal_mode_command
 endfunction
+
 
 " C/C++ block mappings ---------------------------------------------------- {{{
 
@@ -85,6 +87,12 @@ endfunction
 function s:move_to_end_of_cmakelists_block()
     call search('\<endif()\|endwhile()')
 endfunction
+
+" }}}
+
+
+" DOS batch block mappings ------------------------------------------------ {{{
+call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko')
 
 " }}}
 

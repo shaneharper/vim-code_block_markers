@@ -92,6 +92,20 @@ call s:test([
         \ ]])
 " }}}1
 
+set filetype=dosbatch  " {{{1
+call s:test([
+        \ ['if',
+        \   'IF ERRORLEVEL 1',
+        \   "\<c-k>",
+        \   ['IF ERRORLEVEL 1 (', '', ')']
+        \ ],
+        \ ['for',
+        \   'FOR /F "delims=" %%a IN (''dir /b *.bat'') DO',
+        \   "\<c-k>",
+        \   ['FOR /F "delims=" %%a IN (''dir /b *.bat'') DO (', '', ')']
+        \ ]])
+" }}}1
+
 set filetype=sh  " {{{1
 call s:test([
         \ ['if',
