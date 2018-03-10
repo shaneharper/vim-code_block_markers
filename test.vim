@@ -32,6 +32,11 @@ call s:test([
         \   "\<c-j>",
         \   ['void no_args()', '{', '', '}']
         \ ],
+        \ ['function_without_arguments - insert mode',
+        \   'void no_args',
+        \   "i\<c-j>",
+        \   ['void no_args()', '{', '', '}']
+        \ ],
         \ ['make_block_of_visual_selection',
         \   'doit();',
         \   "V\<c-k>",
@@ -78,6 +83,11 @@ call s:test([
         \ ['struct',
         \   'struct S',
         \   "\<c-k>",
+        \   ['struct S', '{', '', '};']
+        \ ],
+        \ ['struct - insert mode',
+        \   'struct S',
+        \   "i\<c-k>",
         \   ['struct S', '{', '', '};']
         \ ]])
 " }}}1
