@@ -92,7 +92,7 @@ endfunction
 
 
 " DOS batch block mappings ------------------------------------------------ {{{
-call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko')
+call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko')  " Note: '(' must appear on the same line as the end of an IF condition - "^\n(" won't work.
 
 " }}}
 
@@ -132,7 +132,7 @@ endfunction
 " }}}
 
 
-" Vimscript block mappings ------------------------------------------------ {{{
+" Vim script block mappings ----------------------------------------------- {{{
 call s:set_normal_and_insert_mode_mapping('vim', '<c-k>', ':call <SID>insert_vim_end_of_block_keyword()<CR>O')
 call s:set_normal_and_insert_mode_mapping('vim', '<c-j>', ':call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O')
 
