@@ -44,7 +44,7 @@ autocmd FileType c,cpp inoremap <buffer> jj <Esc>]}A<CR>
 function s:add_curly_brackets_and_semicolon_if_required()
     let initial_line_text = getline('.')
 
-    execute "normal! o{\<CR>}"
+    execute "normal!" (initial_line_text =~ '^\s*$' ? 'i' : 'o')."{\<CR>}"
 
     let is_a_record_definition = (initial_line_text =~# '\(\<class\>\|\<enum\>\|\<struct\>\|\<union\>\)'
                                                      \ .'[^)]*$')  " [small HACK] Filter out lines containing a ')', e.g. 'struct S* fn()' and 'if (struct S* v = fn())'
