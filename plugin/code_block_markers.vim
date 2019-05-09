@@ -115,6 +115,7 @@ function s:insert_shell_script_block_start_and_end_keywords()
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
         normal o{
         normal o}
+        normal <<
     elseif getline('.') =~# '^\s*case\>'
         normal oesac
     else
