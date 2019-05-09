@@ -23,7 +23,7 @@ endfunction
 " Ctrl-k : insert {}s (Mnemonic: 'k'urly)
 " (I wanted to use Shift-<CR> but unfortunately it's not possible to map Shift-<CR> differently to <CR> when running Vim in a terminal window.)
 " Note: '{' isn't mapped because sometimes we want to have {}s on the one line.
-call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required()<CR>O')
+call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
 
 autocmd FileType c,cpp vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX ^ nice to add a ';' after the '}' if line before first line of visual selection is the start of a struct/class/enum/union.
@@ -41,7 +41,7 @@ call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-j>', ':call <SID>add_pare
 autocmd FileType c,cpp inoremap <buffer> jj <Esc>]}A<CR>
 
 
-function s:add_curly_brackets_and_semicolon_if_required()
+function s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
     let initial_line_text = getline('.')
 
     execute "normal!" (initial_line_text =~ '^\s*$' ? 'i' : 'o')."{\<CR>}"
@@ -52,16 +52,6 @@ function s:add_curly_brackets_and_semicolon_if_required()
     let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature - check to see if there is an unmatched '('.)
     if is_a_record_definition || is_an_assignment
         normal! a;
-    endif
-endfunction
-
-
-function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
-    normal A)
-    if searchpair('(', '', ')', 'bnW',
-            \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"',
-            \ max([line('.')-40, 1])) <= 0  " XXX ^ should ignore more than just string and comment?
-        normal i(
     endif
 endfunction
 
@@ -167,6 +157,19 @@ function s:start_line_number_of_vim_command_under_cursor()
         let r -= 1
     endwhile
     return r
+endfunction
+
+" }}}
+
+
+" Utility functions ------------------------------------------------------- {{{
+function s:add_parentheses() " '(' isn't added if already present. ')' is always added.
+    normal A)
+    if searchpair('(', '', ')', 'bnW',
+            \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|comment"',
+            \ max([line('.')-40, 1])) <= 0  " XXX ^ should ignore more than just string and comment?
+        normal i(
+    endif
 endfunction
 
 " }}}
