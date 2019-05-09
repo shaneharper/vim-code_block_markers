@@ -112,6 +112,7 @@ function s:insert_shell_script_block_start_and_end_keywords()
             normal A then
         endif
         normal ofi
+        normal <<
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
         normal o{
         normal o}
