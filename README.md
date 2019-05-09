@@ -14,7 +14,7 @@ int my_new_function()
 ```
 with a single key-mapping with this plugin; The cursor will be positioned to begin entering the first statement of the function body.
 
-Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium. This Vim editor plugin defines key mappings for C, C++, CMakeLists.txt, DOS batch, shell script and Vim script files.
+Inserting and moving past code block markers are (trivial) tasks done all the time by software developers: This plugin can reduce the tedium. This Vim editor plugin defines key mappings for C, C++, C#, CMakeLists.txt, DOS batch, shell script and Vim script files.
 
 <table>
 <tr>
