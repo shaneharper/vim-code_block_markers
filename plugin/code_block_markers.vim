@@ -89,9 +89,10 @@ call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko'
 
 
 " Shell script block mappings --------------------------------------------- {{{
-call s:set_normal_and_insert_mode_mapping('sh', '<c-k>', ':call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O')
+" xxx csh/tcsh not supported.
+call s:set_normal_and_insert_mode_mapping('sh,zsh', '<c-k>', ':call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O')
 
-autocmd FileType sh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
+autocmd FileType sh,zsh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
 
 
 function s:insert_shell_script_block_start_and_end_keywords()

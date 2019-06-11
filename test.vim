@@ -107,6 +107,7 @@ call s:test([
 " }}}1
 
 set filetype=sh  " {{{1
+" See: filetype=zsh
 call s:test([
         \ ['if',
         \   'if [ -d "dir" ]',
@@ -173,6 +174,16 @@ call s:test([
         \   'redir => o',
         \   "\<c-k>",
         \   ['redir => o', '', 'redir END']
+        \ ]])
+" }}}1
+
+set filetype=zsh  " {{{1
+" See: filetype=sh
+call s:test([
+        \ ['if',
+        \   'if [ -d "dir" ]',
+        \   "\<c-k>",
+        \   ['if [ -d "dir" ]; then', '', 'fi']
         \ ]])
 " }}}1
 
