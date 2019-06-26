@@ -92,6 +92,15 @@ call s:test([
         \ ]])
 " }}}1
 
+set filetype=cs  " (c-sharp)  {{{1
+call s:test([
+        \ ['struct',
+        \   'struct S',
+        \   "\<c-k>",
+        \   ['struct S', '{', '', '}']
+        \ ]])
+" }}}1
+
 set filetype=dosbatch  " {{{1
 call s:test([
         \ ['if',

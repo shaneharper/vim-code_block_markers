@@ -51,7 +51,7 @@ function s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
                                                      \ .'[^)]*$')  " [small HACK] Filter out lines containing a ')', e.g. 'struct S* fn()' and 'if (struct S* v = fn())'
     let is_an_assignment = (initial_line_text =~# '=$')  " Assume "struct initialization", e.g. MyStruct m = { 1,3,3 };
     let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature - check to see if there is an unmatched '('.)
-    if is_a_record_definition || is_an_assignment
+    if (is_a_record_definition && &filetype != 'cs') || is_an_assignment
         normal! a;
     endif
 endfunction
