@@ -23,7 +23,8 @@ endfunction
 " Ctrl-k : insert {}s (Mnemonic: 'k'urly)
 " (I wanted to use Shift-<CR> but unfortunately it's not possible to map Shift-<CR> differently to <CR> when running Vim in a terminal window.)
 " Note: '{' isn't mapped because sometimes we want to have {}s on the one line.
-call s:set_normal_and_insert_mode_mapping('c,cpp,cs', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
+call s:set_normal_and_insert_mode_mapping('c,cpp', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
+call s:set_normal_and_insert_mode_mapping('cs', '<c-k>', ':call <SID>add_csharp_block()<CR>O')
 
 autocmd FileType c,cpp,cs vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX ^ nice to add a ';' after the '}' if line before first line of visual selection is the start of a struct/class/enum/union.
@@ -53,6 +54,14 @@ function s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
     let is_an_assignment = is_an_assignment || (initial_line_text =~# '= \[.*\]\(.*\)$')  " Assume lambda definition (XXX incorrect for a lambda that's defined as the default value of a function argument in the function's signature - check to see if there is an unmatched '('.)
     if (is_a_record_definition && &filetype != 'cs') || is_an_assignment
         normal! a;
+    endif
+endfunction
+
+function s:add_csharp_block()
+    if getline('.') =~# '^\s*#region '
+        normal o#endregion
+    else
+        call s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
     endif
 endfunction
 

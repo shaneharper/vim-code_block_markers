@@ -98,6 +98,11 @@ call s:test([
         \   'struct S',
         \   "\<c-k>",
         \   ['struct S', '{', '', '}']
+        \ ],
+        \ ['#region',
+        \   '#region X',
+        \   "\<c-k>",
+        \   ['#region X', '', '#endregion']
         \ ]])
 " }}}1
 
