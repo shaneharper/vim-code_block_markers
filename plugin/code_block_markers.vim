@@ -139,7 +139,10 @@ endfunction
 call s:set_normal_and_insert_mode_mapping('vim', '<c-k>', ':call <SID>insert_vim_end_of_block_keyword()<CR>O')
 call s:set_normal_and_insert_mode_mapping('vim', '<c-j>', ':call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O')
 
-autocmd FileType vim inoremap <buffer> jj <Esc>:call search('\<end')<CR>o
+autocmd FileType vim inoremap <buffer> jj <Esc>:call <SID>jump_to_end_of_current_vimscript_block()<CR>o
+function s:jump_to_end_of_current_vimscript_block()  " (Inlining this function in the autocmd for jj doesn't work.)
+    call search('\v^\s*(end|augroup END|redir END)')
+endfunction
 
 
 function s:insert_vim_end_of_block_keyword()
