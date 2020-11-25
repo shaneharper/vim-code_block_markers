@@ -36,7 +36,7 @@ Inserting and moving past code block markers are (trivial) tasks done all the ti
 
 A better alternative?
 ---------------------
-Programmers commonly use indentation so that code blocks are easy to see. The use of indentation is sufficient to define code blocks and extra block begin/end keywords/characters are then redundant. [Python](https://www.python.org/) does not use code block markers, just indentation. To write Vim script without end statements see: [add_vim_script_end_statements](https://github.com/shaneharper/add_vim_script_end_statements).
+Programmers commonly use indentation to make code blocks easy to see. Indentation alone is sufficient to define code blocks; extra block begin/end keywords/characters are then redundant. [Python](https://www.python.org/) does not use code block markers, just indentation. To write Vim script without end statements see: [add_vim_script_end_statements](https://github.com/shaneharper/add_vim_script_end_statements).
 
 
 Setup
