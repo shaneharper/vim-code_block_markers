@@ -77,15 +77,19 @@ autocmd FileType cmake inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_cmake
 
 
 function s:insert_cmakelists_block_end_keyword()
-    if getline('.') =~# '^\s*\(if\|elseif\|else\)\>'
+    if getline('.') =~# '^\s*function\>'
+        normal oendfunction()
+    elseif getline('.') =~# '^\s*\(if\|elseif\|else\)\>'
         normal oendif()
+    elseif getline('.') =~# '^\s*macro\>'
+        normal oendmacro()
     elseif getline('.') =~# '^\s*while\>'
         normal oendwhile()
     endif
 endfunction
 
 function s:move_to_end_of_cmakelists_block()
-    call search('\<endif()\|endwhile()')
+    call search('\<endfunction()\|endif()\|macro()\|endwhile()')
 endfunction
 
 " }}}

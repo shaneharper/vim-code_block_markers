@@ -46,6 +46,11 @@ call s:test([
 
 set filetype=cmake  " {{{1
 call s:test([
+        \ ['function',
+        \   'function(f a',
+        \   "\<c-j>",
+        \   ['function(f a)', '', 'endfunction()']
+        \ ],
         \ ['if',
         \   'if (0',
         \   "\<c-j>",
@@ -60,6 +65,11 @@ call s:test([
         \   "if(0)\nelseif(1",
         \   "\<c-j>",
         \   ['if(0)', 'elseif(1)', '', 'endif()']
+        \ ],
+        \ ['macro',
+        \   'macro(my_macro)',
+        \   "\<c-k>",
+        \   ['macro(my_macro)', '', 'endmacro()']
         \ ],
         \ ['while',
         \   'while (1)',
