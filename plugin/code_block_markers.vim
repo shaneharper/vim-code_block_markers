@@ -95,7 +95,7 @@ endfunction
 " }}}
 
 
-" DOS batch block mappings ------------------------------------------------ {{{
+" Microsoft .bat block mappings ------------------------------------------- {{{
 call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko')  " Note: '(' must appear on the same line as the end of an IF condition - "^\n(" won't work.
 
 " }}}
