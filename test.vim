@@ -134,29 +134,29 @@ set filetype=sh  " {{{1
 " See: filetype=zsh
 call s:test([
         \ ['if',
-        \   'if [ -d "dir" ]',
+        \   'if [ -d dir ]',
         \   "\<c-k>",
-        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \   ['if [ -d dir ]; then', '', 'fi']
         \ ],
         \ ['if2',
-        \   'if [ -d "dir" ];  then',
+        \   'if [ -d dir ];  then',
         \   "\<c-k>",
-        \   ['if [ -d "dir" ];  then', '', 'fi']
+        \   ['if [ -d dir ];  then', '', 'fi']
         \ ],
         \ ['if__add_then_fi',
-        \   'if [ -d "dir" ];',
+        \   'if [ -d dir ];',
         \   "\<c-k>",
-        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \   ['if [ -d dir ]; then', '', 'fi']
         \ ],
         \ ['if__add_semicolon_then_fi',
-        \   'if [ -d "dir" ]',
+        \   'if [ -d dir ]',
         \   "\<c-k>",
-        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \   ['if [ -d dir ]; then', '', 'fi']
         \ ]])
 " XXX    \ ['if__add_closing_square_bracket',
-"        \   'if [ -d "dir"',
+"        \   'if [ -d dir',
 "        \   "\<c-k>",
-"        \   ['if [ -d "dir" ]; then', '', 'fi']
+"        \   ['if [ -d dir ]; then', '', 'fi']
 "        \ ], " XXX Also add test: Add "]]" to match "[[".
 
 call s:test([
@@ -205,9 +205,9 @@ set filetype=zsh  " {{{1
 " See: filetype=sh
 call s:test([
         \ ['if',
-        \   'if [ -d "dir" ]',
+        \   'if [ -d dir ]',
         \   "\<c-k>",
-        \   ['if [ -d "dir" ]; then', '', 'fi']
+        \   ['if [ -d dir ]; then', '', 'fi']
         \ ]])
 " }}}1
 
