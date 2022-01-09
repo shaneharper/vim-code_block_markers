@@ -23,6 +23,13 @@ function s:test(tests)
     endfor
 endfunction
 
+function s:echomsg_multiline(msg)
+    for line in split(a:msg, "\n")
+        echomsg empty(line) ? ' ' : line  | " echomsg '' doesn't output a blank line. To get a blank line we output a space.
+    endfor
+endfunction
+
+
 source plugin/code_block_markers.vim
 
 set filetype=c  " {{{1
@@ -211,13 +218,7 @@ call s:test([
         \ ]])
 " }}}1
 
-if s:failed_test_log == ""
-    let s:failed_test_log = "Ok."
-endif
-
-for l in split(s:failed_test_log, "\n")
-    echomsg empty(l) ? ' ' : l
-endfor
+call s:echomsg_multiline(empty(s:failed_test_log) ? "Ok." : s:failed_test_log)
 
 set t_ti= t_te=  " (don't restore old text displayed in terminal on exit)
 quitall!
