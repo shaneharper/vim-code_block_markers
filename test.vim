@@ -1,5 +1,5 @@
 " Run this from a shell:
-"  vim -S test.vim
+"  vim -u test.vim
 
 let s:cpoptions_save = &cpoptions
 set cpoptions&vim
@@ -220,7 +220,6 @@ call s:test([
 
 call s:echomsg_multiline(empty(s:failed_test_log) ? "Ok." : s:failed_test_log)
 
-set t_ti= t_te=  " (don't restore old text displayed in terminal on exit)
 quitall!
 
 catch
