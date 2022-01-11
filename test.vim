@@ -17,7 +17,7 @@ function s:test(tests)
         call setline(1, split(buffer_text, "\n"))
         execute 'normal G'.normal_mode_command.(normal_mode_command[0] !=? 'V' ? '<CURSOR>' : '')  | " (Assume that except where a visual mode mapping was used that a:normal_mode_command will put vim in insert mode - we then insert '<CURSOR>'.)
         if expected_buffer_text !=# getline(1, "$")
-            let s:failed_test_log .= test_name." (".&filetype.") test failed\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
+            let s:failed_test_log .= test_name." (".&filetype.") test failed.\nBuffer:\n".join(getline(1,"$"),"\n")."\n\n"
         endif
         normal ggdG
     endfor
@@ -172,9 +172,9 @@ call s:test([
 
 call s:test([
         \ ['for',
-        \   "#!/bin/sh\nfor i in hello world;  do",
+        \   "#!/bin/sh\nfor i in hello world; do",
         \   "\<c-k>",
-        \   ['#!/bin/sh', 'for i in hello world;  do', '<CURSOR>', 'done']
+        \   ['#!/bin/sh', 'for i in hello world; do', '<CURSOR>', 'done']
         \ ],
         \ ['case',
         \   "#!/bin/sh\ncase $v in",
