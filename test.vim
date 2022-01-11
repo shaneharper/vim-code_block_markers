@@ -142,12 +142,18 @@ call s:test([
 " }}}1
 
 set filetype=sh  " {{{1
+set ai
 " See: filetype=zsh
 call s:test([
         \ ['if',
-        \   'if [ -d dir ]',
-        \   "\<c-k>",
-        \   ['if [ -d dir ]; then', '<CURSOR>', 'fi']
+        \   'if [ -d dir ]; then'."\n".'  if [ -e "$str" ]'."\n".'fi',
+        \   "k\<c-k>",
+        "\   ^ k moves cursor to line with the nested if
+        \   ['if [ -d dir ]; then',
+        \    '  if [ -e "$str" ]; then',
+        \    '  <CURSOR>',
+        \    '  fi',
+        \    'fi']
         \ ],
         \ ['if2',
         \   'if [ -d dir ];  then',
@@ -191,6 +197,7 @@ call s:test([
         \   "\<c-k>",
         \   ['#!/bin/sh', 'myfunction()', '{', '<CURSOR>', '}']
         \ ]])
+set noai
 " }}}1
 
 set filetype=vim  " {{{1
