@@ -172,9 +172,9 @@ call s:test([
 
 call s:test([
         \ ['for',
-        \   "#!/bin/sh\nfor i in hello world; do",
+        \   "#!/bin/sh\nfor i in hello world;  do",
         \   "\<c-k>",
-        \   ['#!/bin/sh', 'for i in hello world; do', '<CURSOR>', 'done']
+        \   ['#!/bin/sh', 'for i in hello world;  do', '<CURSOR>', 'done']
         \ ],
         \ ['case',
         \   "#!/bin/sh\ncase $v in",
