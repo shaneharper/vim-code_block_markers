@@ -202,7 +202,7 @@ set noai
 
 set filetype=vim  " {{{1
 call s:test([
-        \ ['slash doesnt always indicate a continuation line',
+        \ ["slash doesn't always indicate a continuation line",
         \   'for e in f("\n")',
         \   "\<c-k>",
         \   ['for e in f("\n")', '<CURSOR>', 'endfor']
