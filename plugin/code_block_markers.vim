@@ -13,8 +13,8 @@ let g:loaded_code_block_markers_plugin = 1
 
 
 function s:set_normal_and_insert_mode_mapping(filetypes, keys, normal_mode_command)
-    execute 'autocmd FileType' a:filetypes 'inoremap <buffer>' a:keys '<Esc>'.a:normal_mode_command
-    execute 'autocmd FileType' a:filetypes 'noremap <buffer>' a:keys a:normal_mode_command
+    execute 'autocmd FileType' a:filetypes 'inoremap <buffer> <silent>' a:keys '<Esc>'.a:normal_mode_command
+    execute 'autocmd FileType' a:filetypes 'noremap <buffer> <silent>' a:keys a:normal_mode_command
 endfunction
 
 
@@ -26,7 +26,7 @@ endfunction
 call s:set_normal_and_insert_mode_mapping('c,cpp,swig', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
 call s:set_normal_and_insert_mode_mapping('cs', '<c-k>', ':call <SID>add_csharp_block()<CR>O')
 
-autocmd FileType c,cpp,cs,swig vnoremap <buffer> <c-k> >`<O{<Esc>`>o}<Esc>
+autocmd FileType c,cpp,cs,swig vnoremap <buffer> <silent> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX ^ nice to add a ';' after the '}' if line before first line of visual selection is the start of a struct/class/enum/union.
 " XXX XXX ^ nice to check if selected text is already indented, if so don't indent with '>'
 " XXX To do: insert #endif after #if, #ifdef, #ifndef.
@@ -39,7 +39,7 @@ call s:set_normal_and_insert_mode_mapping('c,cpp,cs,swig', '<c-j>', ':call <SID>
 " XXX Ctrl-j after the start of a struct/class/... def'n could function as ctrl-k does and also insert the start of a constructor signature.
 
 " jj : continue insertion past end of current block (Mnemonic: 'j' moves down in normal mode.)
-autocmd FileType c,cpp,cs,swig inoremap <buffer> jj <Esc>]}A<CR>
+autocmd FileType c,cpp,cs,swig inoremap <buffer> <silent> jj <Esc>]}A<CR>
 
 
 function s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
@@ -70,10 +70,10 @@ endfunction
 
 " CMake block mappings ---------------------------------------------------- {{{
 call s:set_normal_and_insert_mode_mapping('cmake', '<c-k>', ':call <SID>insert_cmakelists_block_end_keyword()<CR>O')
-autocmd FileType cmake inoremap <buffer> <c-j> )<Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
-autocmd FileType cmake nnoremap <buffer> <c-j> :exec 'normal A)'<bar>call <SID>insert_cmakelists_block_end_keyword()<CR>O
+autocmd FileType cmake inoremap <buffer> <silent> <c-j> )<Esc>:call <SID>insert_cmakelists_block_end_keyword()<CR>O
+autocmd FileType cmake nnoremap <buffer> <silent> <c-j> :exec 'normal A)'<bar>call <SID>insert_cmakelists_block_end_keyword()<CR>O
 
-autocmd FileType cmake inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_cmakelists_block()<CR>o
+autocmd FileType cmake inoremap <buffer> <silent> jj <Esc>:call <SID>move_to_end_of_cmakelists_block()<CR>o
 
 
 function s:insert_cmakelists_block_end_keyword()
@@ -105,7 +105,7 @@ call s:set_normal_and_insert_mode_mapping('dosbatch', '<c-k>', 'A (<CR>)<Esc>ko'
 " xxx csh/tcsh not supported.
 call s:set_normal_and_insert_mode_mapping('sh,zsh', '<c-k>', ':call <SID>insert_shell_script_block_start_and_end_keywords()<CR>O')
 
-autocmd FileType sh,zsh inoremap <buffer> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
+autocmd FileType sh,zsh inoremap <buffer> <silent> jj <Esc>:call <SID>move_to_end_of_shell_script_block()<CR>o
 
 
 function s:insert_shell_script_block_start_and_end_keywords()
@@ -141,7 +141,7 @@ endfunction
 call s:set_normal_and_insert_mode_mapping('vim', '<c-k>', ':call <SID>insert_vim_end_of_block_keyword()<CR>O')
 call s:set_normal_and_insert_mode_mapping('vim', '<c-j>', ':call <SID>add_parentheses()<CR>:call <SID>insert_vim_end_of_block_keyword()<CR>O')
 
-autocmd FileType vim inoremap <buffer> jj <Esc>:call <SID>jump_to_end_of_current_vimscript_block()<CR>o
+autocmd FileType vim inoremap <buffer> <silent> jj <Esc>:call <SID>jump_to_end_of_current_vimscript_block()<CR>o
 function s:jump_to_end_of_current_vimscript_block()  " (Inlining this function in the autocmd for jj doesn't work.)
     call search('\v^\s*(end|augroup END|redir END)')
 endfunction
