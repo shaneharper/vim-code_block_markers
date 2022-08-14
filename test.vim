@@ -216,6 +216,12 @@ call s:test([
         \   'redir => o',
         \   "\<c-k>",
         \   ['redir => o', '<CURSOR>', 'redir END']
+        \ ],
+        \ ["function--leave a blank line after inserted endfunction which would otherwise have been followed on the next line by another function",
+        \   "function New\nfunction Old()\nendfunction",
+        \   "gg\<c-j>",
+        "\   ^ gg moves cursor to 'function New' line.
+        \   ['function New()', '<CURSOR>', 'endfunction', '', 'function Old()', 'endfunction']
         \ ]])
 " }}}1
 

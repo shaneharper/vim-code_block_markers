@@ -163,9 +163,13 @@ function s:insert_vim_end_of_block_keyword()
             let block_type = 'if'
         endif
         execute "normal! oend".block_type
+
+        if block_type =~# '^function\|def' && line('.') < line('$') && getline(line('.')+1) != ''
+            normal! o
+            normal! k
+        endif
     endif
 endfunction
-
 
 function s:start_line_number_of_vim_command_under_cursor()
     let r = line('.')
