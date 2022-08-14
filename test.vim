@@ -35,17 +35,17 @@ source plugin/code_block_markers.vim
 set filetype=c  " {{{1
 set cindent
 call s:test([
-        \ ['function_without_arguments',
+        \ ['function without arguments',
         \   'void no_args',
         \   "\<c-j>",
         \   ['void no_args()', '{', "\t<CURSOR>", '}']
         \ ],
-        \ ['function_without_arguments - insert mode',
+        \ ['function without arguments - insert mode',
         \   'void no_args',
         \   "i\<c-j>",
         \   ['void no_args()', '{', "\t<CURSOR>", '}']
         \ ],
-        \ ['make_block_of_visual_selection',
+        \ ['make block of visual selection',
         \   'doit();',
         \   "V\<c-k>",
         \   ['{', "\<tab>doit();", '}']
@@ -90,12 +90,12 @@ call s:test([
 set filetype=cpp  " {{{1
 set cindent
 call s:test([
-        \ ['add_closing_bracket',
+        \ ['add closing bracket',
         \   'void f(int a',
         \   "\<c-j>",
         \   ['void f(int a)', '{', "\t<CURSOR>", '}']
         \ ],
-        \ ['add_closing_bracket__opening_bracket_is_on_a_different_line',
+        \ ['add closing bracket--opening bracket is on a different line',
         \   "void f(int a\nint b",
         \   "\<c-j>",
         \   ['void f(int a', 'int b)', '{', "\t<CURSOR>", '}']
@@ -160,17 +160,17 @@ call s:test([
         \   "\<c-k>",
         \   ['if [ -d dir ];  then', '<CURSOR>', 'fi']
         \ ],
-        \ ['if__add_then_fi',
+        \ ['if--add then fi',
         \   'if [ -d dir ];',
         \   "\<c-k>",
         \   ['if [ -d dir ]; then', '<CURSOR>', 'fi']
         \ ],
-        \ ['if__add_semicolon_then_fi',
+        \ ['if--add semicolon then fi',
         \   'if [ -d dir ]',
         \   "\<c-k>",
         \   ['if [ -d dir ]; then', '<CURSOR>', 'fi']
         \ ]])
-" XXX    \ ['if__add_closing_square_bracket',
+" XXX    \ ['if--add closing square bracket',
 "        \   'if [ -d dir',
 "        \   "\<c-k>",
 "        \   ['if [ -d dir ]; then', '<CURSOR>', 'fi']
@@ -192,7 +192,7 @@ call s:test([
         \   "\<c-k>",
         \   ['#!/bin/sh', 'function f', '{', '<CURSOR>', '}']
         \ ],
-        \ ['function_name_followed_by_brackets',
+        \ ['function name followed by brackets',
         \   "#!/bin/sh\nmyfunction()",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'myfunction()', '{', '<CURSOR>', '}']
@@ -202,7 +202,7 @@ set noai
 
 set filetype=vim  " {{{1
 call s:test([
-        \ ['slash_doesnt_always_indicate_a_continuation_line',
+        \ ['slash doesnt always indicate a continuation line',
         \   'for e in f("\n")',
         \   "\<c-k>",
         \   ['for e in f("\n")', '<CURSOR>', 'endfor']
