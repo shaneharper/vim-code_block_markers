@@ -146,11 +146,12 @@ set ai
 " See: filetype=zsh
 call s:test([
         \ ['if',
-        \   'if [ -d dir ]; then'."\n".'  if [ -e "$str" ]'."\n".'fi',
+        \   'if [ -d dir ]; then'."\n".'  if [ -e "$str" ]; '."\n".'fi',
         \   "k\<c-k>",
         "\   ^ k moves cursor to line with the nested if
         \   ['if [ -d dir ]; then',
         \    '  if [ -e "$str" ]; then',
+        "\                       ^ just one space.
         \    '  <CURSOR>',
         \    '  fi',
         \    'fi']

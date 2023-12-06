@@ -114,7 +114,7 @@ function s:insert_shell_script_block_start_and_end_keywords()
             if getline('.') !~# ';\s*$'
                 normal A;
             endif
-            normal A then
+            s/;\s*$/; then/
         endif
         normal ofi
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
