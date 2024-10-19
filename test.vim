@@ -189,7 +189,7 @@ call s:test([
         \   ['#!/bin/sh', 'for i in hello world;  do', '<CURSOR>', 'done']
         \ ],
         \ ['case',
-        \   "#!/bin/sh\ncase $v in",
+        \   "#!/bin/sh\ncase $v",
         \   "\<c-k>",
         \   ['#!/bin/sh', 'case $v in', '<CURSOR>', 'esac']
         \ ],

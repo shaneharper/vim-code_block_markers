@@ -120,6 +120,9 @@ function s:insert_shell_script_block_start_and_end_keywords()
         normal o{
         normal o}
     elseif getline('.') =~# '^\s*case\>'
+        if getline('.') !~# '\s*in$'
+            normal A in
+        endif
         normal oesac
     else
         if getline('.') !~# ';\s*do\>'
