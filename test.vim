@@ -170,6 +170,11 @@ call s:test([
         \   'if [ -d dir ]',
         \   "\<c-k>",
         \   ['if [ -d dir ]; then', '<CURSOR>', 'fi']
+        \ ],
+        \ ['elif',
+        \   'if [ -d dir ]; then'."\n".'  echo'."\n".'elif [ -d dir2 ]'."\n"."fi",
+        \   "k\<c-k>",
+        \   ['if [ -d dir ]; then', '  echo', 'elif [ -d dir2 ]; then', '<CURSOR>', 'fi']
         \ ]])
 " XXX    \ ['if--add closing square bracket',
 "        \   'if [ -d dir',

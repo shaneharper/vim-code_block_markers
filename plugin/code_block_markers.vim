@@ -110,13 +110,12 @@ autocmd FileType sh,zsh inoremap <buffer> <silent> jj <Esc>:call <SID>move_to_en
 
 function s:insert_shell_script_block_start_and_end_keywords()
     if getline('.') =~# '^\s*if\>'
-        if getline('.') !~# ';\s*then'
-            if getline('.') !~# ';\s*$'
-                normal A;
-            endif
-            s/;\s*$/; then/
-        endif
+        call s:ensure_line_ends_with_a_semicolon_and_then()
         normal ofi
+    elseif getline('.') =~# '^\s*elif\>'
+        call s:ensure_line_ends_with_a_semicolon_and_then()
+        " xxx Add "fi" if need be. ("fi" would have already been added if "if [ ___ ]<c-k>" had been entered.)
+        normal j
     elseif getline('.') =~# '^\s*\(function\|\w*()\)'
         normal o{
         normal o}
@@ -127,6 +126,15 @@ function s:insert_shell_script_block_start_and_end_keywords()
             normal A; do
         endif
         normal odone
+    endif
+endfunction
+
+function s:ensure_line_ends_with_a_semicolon_and_then()
+    if getline('.') !~# ';\s*then'
+        if getline('.') !~# ';\s*$'
+            normal A;
+        endif
+        s/;\s*$/; then/
     endif
 endfunction
 
