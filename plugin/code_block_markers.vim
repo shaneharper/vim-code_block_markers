@@ -23,10 +23,10 @@ endfunction
 " Ctrl-k : insert {}s (Mnemonic: 'k'urly)
 " (I wanted to use Shift-<CR> but unfortunately it's not possible to map Shift-<CR> differently to <CR> when running Vim in a terminal window.)
 " Note: '{' isn't mapped because sometimes we want to have {}s on the one line.
-call s:set_normal_and_insert_mode_mapping('c,cpp,swig', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
+call s:set_normal_and_insert_mode_mapping('c,cpp,arduino,swig', '<c-k>', ':call <SID>add_curly_brackets_and_semicolon_if_required_for_C_language_block()<CR>O')
 call s:set_normal_and_insert_mode_mapping('cs', '<c-k>', ':call <SID>add_csharp_block()<CR>O')
 
-autocmd FileType c,cpp,cs,swig vnoremap <buffer> <silent> <c-k> >`<O{<Esc>`>o}<Esc>
+autocmd FileType c,cpp,cs,arduino,swig vnoremap <buffer> <silent> <c-k> >`<O{<Esc>`>o}<Esc>
 " XXX ^ nice to add a ';' after the '}' if line before first line of visual selection is the start of a struct/class/enum/union.
 " XXX XXX ^ nice to check if selected text is already indented, if so don't indent with '>'
 " XXX To do: insert #endif after #if, #ifdef, #ifndef.
@@ -35,11 +35,11 @@ autocmd FileType c,cpp,cs,swig vnoremap <buffer> <silent> <c-k> >`<O{<Esc>`>o}<E
 " Ctrl-j can be used at the top of a function definition, or for an 'if', 'for', or 'while' block.
 " (Mnemonic: 'j' is beside 'k' on a Qwerty keyboard, and this is similar to Ctrl-k)
 " XXX Ctrl-j could act like Ctrl-k (i.e. not add parentheses) if the line already has parentheses! (Then there wouldn't be a need for two mappings: Ctrl-k could do it all: add '(', ')' as required and then insert {}s. For Vimscript, only worry about parentheses after "function", not "if", "for" or "while".)
-call s:set_normal_and_insert_mode_mapping('c,cpp,cs,swig', '<c-j>', ':call <SID>add_parentheses()<CR>o{<CR>}<Esc>O')
+call s:set_normal_and_insert_mode_mapping('c,cpp,cs,arduino,swig', '<c-j>', ':call <SID>add_parentheses()<CR>o{<CR>}<Esc>O')
 " XXX Ctrl-j after the start of a struct/class/... def'n could function as ctrl-k does and also insert the start of a constructor signature.
 
 " jj : continue insertion past end of current block (Mnemonic: 'j' moves down in normal mode.)
-autocmd FileType c,cpp,cs,swig inoremap <buffer> <silent> jj <Esc>]}A<CR>
+autocmd FileType c,cpp,cs,arduino,swig inoremap <buffer> <silent> jj <Esc>]}A<CR>
 
 
 function s:add_curly_brackets_and_semicolon_if_required_for_C_language_block()
